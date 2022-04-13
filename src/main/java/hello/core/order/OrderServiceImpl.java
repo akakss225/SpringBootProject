@@ -1,5 +1,6 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
 import hello.core.discount.RateDiscountPolicy;
@@ -23,11 +24,7 @@ public class OrderServiceImpl implements OrderService {
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
-    // 동일한 이름의 빈이 두개이상 등록되었을 때
-    // Bean 이름을 특정지으면 됨!
-//    private final DiscountPolicy rateDiscountPolicy;
-
-
+    // =============================== 의존성 주입 start =================================
 
     // 생성자를 통한 의존성 주입 : 불변 / 필수 의존관계에 사용.
     // lombok > RequiredArgsConstructor 을 통해 생성가능. > 생략!
@@ -61,6 +58,31 @@ public class OrderServiceImpl implements OrderService {
 //
 //    @Autowired
 //    private DiscountPolicy discountPolicy;
+
+    // =============================== 의존성 주입 end =================================
+
+    // =============================== 빈 중복 수정 start =================================
+
+    // 동일한 이름의 빈이 두개이상 등록되었을 때
+    // Bean 이름을 특정지으면 됨!
+//    private final DiscountPolicy rateDiscountPolicy;
+
+
+    // @Qualifier 를 사용한 빈 중복 수정
+//    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+//        this.memberRepository = memberRepository;
+//        this.discountPolicy = discountPolicy;
+//    }
+
+
+    // 재정의 어노테이션을 활용한 빈 중복 수정
+//    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
+//        this.memberRepository = memberRepository;
+//        this.discountPolicy = discountPolicy;
+//    }
+
+    // =============================== 빈 중복 수정 end =================================
+
 
 
     @Override
