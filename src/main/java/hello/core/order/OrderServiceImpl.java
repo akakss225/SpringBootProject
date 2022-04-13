@@ -8,6 +8,7 @@ import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,6 +22,12 @@ public class OrderServiceImpl implements OrderService {
     // 생성자주입 > lombok 버전
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
+
+    // 동일한 이름의 빈이 두개이상 등록되었을 때
+    // Bean 이름을 특정지으면 됨!
+//    private final DiscountPolicy rateDiscountPolicy;
+
+
 
     // 생성자를 통한 의존성 주입 : 불변 / 필수 의존관계에 사용.
     // lombok > RequiredArgsConstructor 을 통해 생성가능. > 생략!
@@ -54,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
 //
 //    @Autowired
 //    private DiscountPolicy discountPolicy;
-    
+
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
