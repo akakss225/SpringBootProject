@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 //@Qualifier("mainDiscountPolicy") >> 생성자 주입시 @Qualifier로 찾아서 매칭해줌. >> 문자 타입이기 때문에 컴파일 오류 없음.
-//@Primary
+@Primary
 //@MainDiscountPolicy
 public class RateDiscountPolicy implements DiscountPolicy{
 
