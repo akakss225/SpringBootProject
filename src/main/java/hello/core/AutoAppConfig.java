@@ -9,6 +9,8 @@ import org.springframework.context.annotation.FilterType;
 // AppConfig 를 제외시켜주기위함. >> 기존에 작성한 코드를 살리기 위함.
 @Configuration
 @ComponentScan(
+        basePackages = "hello.core", // 지정을 안하면, default로 모든 자바 파일을 확인한다.
+        basePackageClasses = AutoAppConfig.class, // 지정을 안하면, 현재 config 의 패키지인 hello.core부터 하위까지 다 확인.
         excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)
 )
 public class AutoAppConfig {
