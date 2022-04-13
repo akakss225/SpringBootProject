@@ -19,8 +19,8 @@ import org.springframework.context.annotation.FilterType;
 public class AutoAppConfig {
 
     // 수동 빈 등록시, 자동 빈 등록과 이름이 겹쳐도 우선순위를 갖기 때문에, overriding됨.
-    @Bean(name = "memoryMemberRepository")
-    MemberRepository memberRepository() {
-        return new MemoryMemberRepository();
-    }
+//    @Bean(name = "memoryMemberRepository")
+//    MemberRepository memberRepository() {
+//        return new MemoryMemberRepository();
+//    }
 }
