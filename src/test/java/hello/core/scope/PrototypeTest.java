@@ -29,6 +29,10 @@ public class PrototypeTest {
         // prototype 즉, 만들고 버렸기 때문에 destroy 호출이 안됨.
         ac.close();
 
+        // 종료 시키려면 직접 호출.
+//        prototypeBean1.destroy();
+//        prototypeBean2.destroy();
+
     }
 
     @Scope("prototype")
