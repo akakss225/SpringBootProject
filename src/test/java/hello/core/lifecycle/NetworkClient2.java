@@ -32,14 +32,14 @@ public class NetworkClient2 {
 
     // 의존관계 주입이 끝나면 호출해 주는 메소드
     public void init() throws Exception {
-        System.out.println("NetworkClient.init");
+        System.out.println("NetworkClient.init2");
         connect();
         call("초기화 연결 메세지");
     }
 
     // 소멸 직전 콜백
     public void close() throws Exception {
-        System.out.println("NetworkClient.close");
+        System.out.println("NetworkClient.close2");
         disconnect();
     }
 }

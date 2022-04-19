@@ -23,7 +23,8 @@ public class BeanLifeCycleTest {
     public void lifeCycleTest() {
         ConfigurableApplicationContext ac = new AnnotationConfigApplicationContext(LifeCycleConfig.class);
 //        NetworkClient client = ac.getBean(NetworkClient.class);
-        NetworkClient2 client2 = ac.getBean(NetworkClient2.class);
+//        NetworkClient2 client2 = ac.getBean(NetworkClient2.class);
+        NetworkClient3 client3 = ac.getBean(NetworkClient3.class);
         ac.close();
     }
 
@@ -52,6 +53,14 @@ public class BeanLifeCycleTest {
             NetworkClient2 networkClient2 = new NetworkClient2();
             networkClient2.setUrl("http://hello-spring.dev");
             return networkClient2;
+
+        }
+
+        @Bean
+        public NetworkClient3 networkClient3() {
+            NetworkClient3 networkClient3 = new NetworkClient3();
+            networkClient3.setUrl("http://hello-spring.dev");
+            return networkClient3;
 
         }
 
