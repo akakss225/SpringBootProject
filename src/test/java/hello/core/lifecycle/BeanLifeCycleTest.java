@@ -22,12 +22,14 @@ public class BeanLifeCycleTest {
     @Test
     public void lifeCycleTest() {
         ConfigurableApplicationContext ac = new AnnotationConfigApplicationContext(LifeCycleConfig.class);
-        NetworkClient client = ac.getBean(NetworkClient.class);
+//        NetworkClient client = ac.getBean(NetworkClient.class);
+        NetworkClient2 client2 = ac.getBean(NetworkClient2.class);
         ac.close();
     }
 
     @Configuration
     static class LifeCycleConfig {
+
         @Bean
         public NetworkClient networkClient() {
             NetworkClient networkClient = new NetworkClient();
@@ -41,6 +43,19 @@ public class BeanLifeCycleTest {
             networkClient.setUrl("http://hello-spring.dev");
             return networkClient;
         }
+
+        // destroyMethod 의 default 값은 "(inferred)" 라는 값임. >> 라이브러리들은 보편적으로 close / shutdown 이라는 이름을 사용.
+        // inferred 는 단어 그대로 "추론" 이라는 의미를 갖는다. 즉, close 혹은 shutdown 이라는 이름의 메소드를 자동으로 호출해준다.
+        // 이 추론기능을 사용하지 않으려면, destroyMethod = "" 로 공백설정을 하면 된다.
+        @Bean(initMethod = "init", destroyMethod = "close")
+        public NetworkClient2 networkClient2() {
+            NetworkClient2 networkClient2 = new NetworkClient2();
+            networkClient2.setUrl("http://hello-spring.dev");
+            return networkClient2;
+
+        }
+
     }
+
 
 }
