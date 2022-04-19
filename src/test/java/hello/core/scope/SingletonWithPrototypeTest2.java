@@ -9,28 +9,13 @@ import org.springframework.context.annotation.Scope;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class SingletonWithPrototypeTest1 {
-
-    @Test
-    void prototypeFind() {
-        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(PrototypeBean.class);
-
-        PrototypeBean prototypeBean1 = ac.getBean(PrototypeBean.class);
-        prototypeBean1.addCount();
-        assertThat(prototypeBean1.getCount()).isEqualTo(1);
-
-        PrototypeBean prototypeBean2 = ac.getBean(PrototypeBean.class);
-        prototypeBean2.addCount();
-        assertThat(prototypeBean2.getCount()).isEqualTo(1);
-
-    }
+public class SingletonWithPrototypeTest2 {
 
     @Test
     void singletonClientUsePrototype() {
-        AnnotationConfigApplicationContext ac =
-                new AnnotationConfigApplicationContext(ClientBean.class, PrototypeBean.class);
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(ClientBean.class, PrototypeBean.class);
 
         ClientBean clientBean1 = ac.getBean(ClientBean.class);
         int count1 = clientBean1.logic();
@@ -38,27 +23,26 @@ public class SingletonWithPrototypeTest1 {
 
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         int count2 = clientBean2.logic();
-        assertThat(count2).isEqualTo(2);
+        assertThat(count2).isEqualTo(1);
 
     }
 
     @Scope("singleton")
     static class ClientBean {
-        private final PrototypeBean prototypeBean;
 
-        // 스프링 컨테이너에서 의존성 주입시 prototypeBean 을 호출함
-        // 그럼 이때 이미 prototypeBean 이 생성이 되고, 더이상 관리를 하지않음.
-        // 마치 지역변수처럼.
-        // 따라서 싱글톤 내부의 프로토타입은 객체가 다르더라도 공유가 됨.
+        // ObjectProvider 를 사용한 singleton + prototype 문제 해결
+        // ObjectProvider 의 경우, DI 가 아닌 Dependency Lookup 이라는 DL 라고 불린다.
+        // 다만 SpringFramework 의존적이다.
         @Autowired
-        public ClientBean(PrototypeBean prototypeBean) {
-            this.prototypeBean = prototypeBean;
-        }
+        private ObjectProvider<PrototypeBean> prototypeBeanProvider;
 
         public int logic() {
+            // ObjectProvider 는 getObject() 를 호출하는 시점에 스프링 컨테이너에서 prototypeBean 을 찾아서 호출해줌.
+            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
             prototypeBean.addCount();
             return prototypeBean.getCount();
         }
+
     }
 
 
@@ -85,5 +69,4 @@ public class SingletonWithPrototypeTest1 {
             System.out.println("PrototypeBean.destroy");
         }
     }
-
 }
