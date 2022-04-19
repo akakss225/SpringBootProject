@@ -27,6 +27,9 @@ dependencies {
     // DL >> Provider 제공 라이브러리(자바)
     implementation 'javax.inject:javax.inject:1'
 
+    // web library
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
     // 롬복 >> preference 에서 annotation processors > enable annotation process 키기.
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
